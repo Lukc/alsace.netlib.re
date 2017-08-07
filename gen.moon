@@ -11,6 +11,11 @@ DESCRIPTION = [[
 
 {:render_html} = require "lapis.html"
 
+http = require "socket.http"
+date = require "date"
+
+{decode: parse_json} = require "json"
+
 Class = require "class"
 
 Association = Class
@@ -89,10 +94,31 @@ List = Class
 					a class: "card-footer-item", href: @subscribe, "Inscription"
 					a class: "card-footer-item", href: @archives, "Archives"
 
-Event = Class
+Event = do Class
 	__init: (arg) =>
 		for k,v in pairs arg
 			@[k] = v
+
+		if @date
+			@date = date @date
+
+	__class:
+		fromAgendaDuLibre: (tag) ->
+			events = {}
+
+			httpContent = http.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
+
+			json = parse_json httpContent
+
+			for data in *json
+				table.insert events, Event
+					name: data.properties.name
+					date: date(data.properties.start_time)
+					url: "https://www.agendadulibre.org/events/" .. tostring(data.properties.id)
+					description: data.properties.place_name .. ", " .. data.properties.address
+					id: data.properties.id
+
+			events
 
 	__call: =>
 		render_html ->
@@ -128,12 +154,14 @@ associations = {
 		name: "Hackstub"
 		description: "Groupe d'enthousiastes des technologies qui se reconnaissent dans l'éthique et la culture hacker. "
 		url: "https://hackstub.netlib.re/landpage/"
+		tag: "hackstub"
 		\addLink "https://hackstub.netlib.re/mailman/listinfo/discussions", "Mail"
 		\addLink "https://github.com/hackstub", "Github"
 
 	with Association
 		name: "ARN"
 		description: "Fournisseur d’accès à Internet associatif."
+		tag: "arn"
 		\addLink "", "Mail"
 		\addLink "", "Github"
 
@@ -169,10 +197,34 @@ events = {
 	Event
 		name: "Rencontres Mondiales du Logiciel Libre"
 		description: "Le plus grand rendez-vous non commercial dans le monde francophone entièrement consacré au logiciel libre et à ses aspects politiques."
-		date: "Juillet 2018"
+		date: "2018-07-07T09:00:00.000Z"
 		icon: "calendar"
 		future: true
 }
+
+for association in *associations
+	unless association.tag
+		continue
+
+	for event in *Event.fromAgendaDuLibre association.tag
+		duplicate = false
+
+		i = 1
+		while i <= #events
+			e = events[i]
+			if e.id and e.id == event.id
+				duplicate = true
+				i = #events
+
+			i += 1
+
+		unless duplicate
+			table.insert events, event
+
+table.sort events, (a, b) -> a.date > b.date
+
+while #events > 15
+	table.remove events
 
 io.write render_html ->
 	io.write '<?xml version="1.0" encoding="utf-8"?>\n'
