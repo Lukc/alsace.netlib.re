@@ -8,10 +8,10 @@
 Voilà les instructions pour installer les dépendances sur Arch :
 
 	pacman -S lua51 luarocks5.1
-	luarocks install lapis
-	luarocks install luasocket
-	luarocks install luajson
-	luarocks install date
+	luarocks-5.1 install lapis
+	luarocks-5.1 install luasocket
+	luarocks-5.1 install luajson
+	luarocks-5.1 install date
 
 # Construction
 
