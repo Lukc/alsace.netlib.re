@@ -147,7 +147,7 @@ Event = do Class
 					p ->
 						raw @description
 
-				div class: "media-right", @date
+				div class: "media-right", @date\fmt "%d/%m/%Y"
 
 associations = {
 	with Association
