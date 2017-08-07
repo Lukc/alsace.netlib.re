@@ -7,7 +7,7 @@
 
 Voilà les instructions pour installer les dépendances sur Arch :
 
-	pacman -S lua51 luarocks-5.1
+	pacman -S lua51 luarocks5.1
 	luarocks install lapis
 
 # Construction
