@@ -2,7 +2,7 @@
 
 DESCRIPTION_HERO = [[
 	alsace.netlib.re est un réseau d’associations de défense et de promotion
-	du logiciel libre sur Strasbourg et en Alsace.
+	du logiciel libre à Strasbourg et en Alsace.
 ]]
 
 -- Plus de paragraphes de description ? Ça s’ajoute ici ! o/
@@ -40,14 +40,14 @@ Association = Class
 
 	__call: =>
 		render_html ->
-			div class: "column is-one-third", ->
-				div class: "card", ->
+			div class: "is-one-third", ->
+				div class: "card is-spaced", ->
 					header class: "card-header", ->
 						h3 class: "card-header-title", @name
 
 					div class: "card-image", ->
 						if @image
-							figure class: "image", ->
+							figure class: "image is-128x128", style: "overflow:hidden; margin: auto;", ->
 								img
 									src: @image
 									alt: @imageText or ("Logo d’" .. @name)
@@ -68,6 +68,8 @@ Association = Class
 								a class: "card-footer-item", href: link.url, ->
 									span class: "fa fa-" .. (link.icon or "warning")
 									span class: "screen-reader", link.text or "???"
+
+				br!
 
 List = Class
 	__init: (arg) =>
@@ -130,7 +132,10 @@ Event = do Class
 			article class: _class, ->
 				figure class: "media-left image is-96x96", ->
 					-- FIXME: Actual images or something?
-					if @icon
+					if @image
+						figure class: "image", ->
+							img src: @image, alt: "Illustration"
+					elseif @icon
 						span class: "icon is-large", ->
 							span class: "fa fa-" .. @icon
 					else
@@ -165,6 +170,11 @@ associations = {
 		\addLink "", "Mail"
 		\addLink "", "Github"
 
+	Association
+		name: "LUG"
+		description: "Linux User Group de Strasbourg."
+		url: "https://strasbourg.linuxfr.org"
+
 	with Association
 		name: "Seeraiwer"
 		description: "« Brigands des mer »"
@@ -177,6 +187,10 @@ associations = {
 		\addLink "", "Mail"
 		\addLink "", "Facebook"
 		\addLink "", "Github"
+
+	Association
+		name: "sxb.so"
+		description: "Des gens qui codent des trucs."
 
 	with Association
 		name:"Desclicks"
@@ -198,7 +212,6 @@ events = {
 		name: "Rencontres Mondiales du Logiciel Libre"
 		description: "Le plus grand rendez-vous non commercial dans le monde francophone entièrement consacré au logiciel libre et à ses aspects politiques."
 		date: "2018-07-07T09:00:00.000Z"
-		icon: "calendar"
 		future: true
 }
 
@@ -244,41 +257,45 @@ io.write render_html ->
 				href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 		body ->
 			div id: "container", ->
-				div class: "content", ->
-					header ->
+				header ->
+					nav class: "navbar", ->
 						h1 "alsace.netlib.re"
 
-						nav ->
-							a href: "#description",  "Description"
-							a href: "#contact",      "Contact"
-							a href: "#events",       "Évènements"
+						div class: "navbar-menu", ->
+							div class: "navbar-end", ->
+								a class: "navbar-item is-hidden-desktop-only",  href: "#description",  "Description"
+								a class: "navbar-item is-hidden-desktop-only",  href: "#contact",      "Contact"
+								a class: "navbar-item is-hidden-desktop-only",  href: "#events",       "Évènements"
 
-					section class: "section", id: "description", ->
-						p class: "hero-body", DESCRIPTION_HERO
+				section class: "section hero", id: "description", ->
+					p class: "hero-body title", DESCRIPTION_HERO
 
-						raw DESCRIPTION
-
-
-						h1 class: "title", "Associations membres"
-
-						div class: "columns is-multiline is-flex-touch", ->
-							raw table.concat [e! for e in *associations]
-
-					section class: "section", id: "contact", ->
-						h1 class: "title", "Contact"
-						h2 class: "subtitle is-4", "… et listes de diffusion"
-
-						raw table.concat [e! for e in *listes]
+					raw DESCRIPTION
 
 
-					section class: "section", id: "events", ->
-						h1 class: "title", "Évènements"
-						h2 class: "subtitle", "… et promotions"
+				section class: "section", ->
+					h1 class: "title", "Associations membres"
 
-						raw table.concat [e! for e in *events]
+					div class: "columns is-multiline is-flex-touch", ->
+						for i in *{1, 2, 0}
+							div class: "column is-one-third", ->
+								raw table.concat [associations[j]! for j = 1, #associations when j % 3 == i]
 
-					footer class: "footer has-text-centered", ->
-						p "Built with <3."
+				section class: "section", id: "contact", ->
+					h1 class: "title", "Contact"
+					h2 class: "subtitle is-4", "… et listes de diffusion"
 
-						p "Also with Bulma, Moonscript, and more <3."
+					raw table.concat [e! for e in *listes]
+
+
+				section class: "section", id: "events", ->
+					h1 class: "title", "Évènements"
+					h2 class: "subtitle", "… et promotions"
+
+					raw table.concat [e! for e in *events]
+
+				footer class: "footer has-text-centered", ->
+					p "Écrit avec un 🎔 avec les mains."
+
+					p "Aussi avec Bulma, Moonscript, et beaucoup d’autres outils."
 
