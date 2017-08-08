@@ -280,13 +280,15 @@ io.write render_html ->
 			div id: "container", ->
 				header ->
 					nav class: "navbar", ->
-						h1 "alsace.netlib.re"
+						div class: "navbar-brand", ->
+							h1 "alsace.netlib.re"
 
-						div class: "navbar-menu", ->
+						div class: "navbar-menu is-active", ->
 							div class: "navbar-end", ->
-								a class: "navbar-item is-hidden-desktop-only",  href: "#description",  "Description"
-								a class: "navbar-item is-hidden-desktop-only",  href: "#contact",      "Contact"
-								a class: "navbar-item is-hidden-desktop-only",  href: "#events",       "Évènements"
+								a class: "navbar-item",  href: "#description",  "Description"
+								a class: "navbar-item",  href: "#membres",      "Membres"
+								a class: "navbar-item",  href: "#contact",      "Contact"
+								a class: "navbar-item",  href: "#events",       "Évènements"
 
 				section class: "section hero", id: "description", ->
 					p class: "hero-body title", DESCRIPTION_HERO
@@ -295,7 +297,7 @@ io.write render_html ->
 
 
 				section class: "section", ->
-					h1 class: "title", "Associations membres"
+					h1 class: "title", id: "membres", "Associations membres"
 
 					div class: "columns is-multiline is-flex-touch", ->
 						for i in *{1, 2, 0}
