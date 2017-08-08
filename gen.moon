@@ -184,39 +184,34 @@ associations = {
 		\addLink "https://hackstub.netlib.re/mailman/listinfo/discussions", "Mail"
 		\addLink "https://github.com/hackstub", "Github"
 
-	with Association
+	Association
 		name: "ARN"
+		url: "http://arn-fai.net/"
 		description: "Fournisseur d’accès à Internet associatif."
 		tag: "arn"
-		\addLink "", "Mail"
-		\addLink "", "Github"
 
 	Association
 		name: "LUG"
 		description: "Linux User Group de Strasbourg."
 		url: "https://strasbourg.linuxfr.org"
 
-	with Association
+	Association
 		name: "Seeraiwer"
+		url: "http://www.seeraiwer.org/"
 		description: "« Brigands des mer »"
-		\addLink "", "Mail"
-		\addLink "", "Github"
 
-	with Association
+	Association
 		name: "AIUS"
 		description: "Association étudiante."
-		\addLink "", "Mail"
-		\addLink "", "Facebook"
-		\addLink "", "Github"
 
 	Association
 		name: "sxb.so"
 		description: "Des gens qui codent des trucs."
 
-	with Association
+	Association
 		name:"Desclicks"
+		url: "http://desclicks.net/"
 		description: "Association de promotion du Libre et du numérique auprès du plus grand nombre."
-		\addLink "", "Mail"
 }
 
 listes = {
