@@ -9,6 +9,8 @@ DESCRIPTION_HERO = [[
 DESCRIPTION = [[
 ]]
 
+local associations, events, lists
+
 {:render_html} = require "lapis.html"
 
 http = require "socket.http"
@@ -97,12 +99,15 @@ List = Class
 					a class: "card-footer-item", href: @archives, "Archives"
 
 Event = do Class
+
 	__init: (arg) =>
 		for k,v in pairs arg
 			@[k] = v
 
 		if @date
 			@date = date @date
+
+		@tags or= {}
 
 	__class:
 		fromAgendaDuLibre: (tag) ->
@@ -119,6 +124,7 @@ Event = do Class
 					url: "https://www.agendadulibre.org/events/" .. tostring(data.properties.id)
 					description: data.properties.place_name .. ", " .. data.properties.address
 					id: data.properties.id
+					tags: data.properties.tags
 
 			events
 
@@ -151,6 +157,21 @@ Event = do Class
 
 					p ->
 						raw @description
+
+					div class: "tags", ->
+						for tag in *@tags
+							associationTag = false
+							for association in *associations
+								if tag == association.tag
+									associationTag = true
+									break
+
+							_class = if associationTag
+								"tag is-primary"
+							else
+								"tag"
+
+							div class: _class, tag
 
 				div class: "media-right", @date\fmt "%d/%m/%Y"
 
