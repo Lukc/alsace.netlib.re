@@ -167,7 +167,7 @@ Event = do Class
 									break
 
 							_class = if associationTag
-								"tag is-primary"
+								"tag is-info"
 							else
 								"tag"
 
