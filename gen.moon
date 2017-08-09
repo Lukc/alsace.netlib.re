@@ -178,7 +178,7 @@ Event = do Class
 associations = {
 	with Association
 		name: "Hackstub"
-		description: "Groupe d'enthousiastes des technologies qui se reconnaissent dans <a href='https://fr.wikipedia.org/wiki/L'%C3%89thique_des_hackers'>l'éthique et la culture</a> <a href='https://fr.wikipedia.org/wiki/Hacker_(programmation)'>hacker</a>. "
+		description: [[Groupe d'enthousiastes des technologies qui se reconnaissent dans <a href="https://fr.wikipedia.org/wiki/L'%C3%89thique_des_hackers">l’éthique et la culture</a> <a href="https://fr.wikipedia.org/wiki/Hacker_(programmation)">hacker</a>.]]
 		url: "https://hackstub.netlib.re/landpage/"
 		tag: "hackstub"
 		image: "logo-Hackstub.png"
