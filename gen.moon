@@ -178,9 +178,10 @@ Event = do Class
 associations = {
 	with Association
 		name: "Hackstub"
-		description: "Groupe d'enthousiastes des technologies qui se reconnaissent dans l'éthique et la culture hacker. "
+		description: "Groupe d'enthousiastes des technologies qui se reconnaissent dans <a href='https://fr.wikipedia.org/wiki/L'%C3%89thique_des_hackers'>l'éthique et la culture</a> <a href='https://fr.wikipedia.org/wiki/Hacker_(programmation)'>hacker</a>. "
 		url: "https://hackstub.netlib.re/landpage/"
 		tag: "hackstub"
+		image: "logo-Hackstub.png"
 		\addLink "https://hackstub.netlib.re/mailman/listinfo/discussions", "Mail"
 		\addLink "https://github.com/hackstub", "Github"
 
@@ -189,6 +190,7 @@ associations = {
 		url: "http://arn-fai.net/"
 		description: "Fournisseur d’accès à Internet associatif."
 		tag: "arn"
+		image: "logo-ARN.png"
 
 	Association
 		name: "LUG"
