@@ -14,7 +14,7 @@ local associations, events, lists
 
 {:render_html} = require "lapis.html"
 
-http = require "socket.http"
+https = require "ssl.https"
 date = require "date"
 
 {decode: parse_json} = require "json"
@@ -114,7 +114,7 @@ Event = do Class
 		fromAgendaDuLibre: (tag) ->
 			events = {}
 
-			httpContent = http.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
+			httpContent = https.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
 
 			json = parse_json httpContent
 
