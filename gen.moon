@@ -319,7 +319,7 @@ io.write render_html ->
 				section class: "section hero", id: "description", ->
 					p class: "hero-body title", DESCRIPTION_HERO
 
-					raw DESCRIPTION
+					div class: "section-body", DESCRIPTION
 
 
 				section class: "section", ->
