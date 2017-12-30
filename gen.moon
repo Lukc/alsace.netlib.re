@@ -13,7 +13,7 @@ local associations, events, lists
 
 {:render_html} = require "lapis.html"
 
-http = require "socket.http"
+https = require "ssl.https"
 date = require "date"
 
 {decode: parse_json} = require "json"
@@ -27,6 +27,9 @@ Association = Class
 			@[k] = v
 
 		@otherLinks or= {}
+
+		if @lists
+			@\addLink "#mail-#{@name}", "Listes de discussion", "envelope-o"
 
 	addLink: (url, text, icon) =>
 		table.insert @otherLinks,
@@ -45,12 +48,13 @@ Association = Class
 			div class: "is-one-third", ->
 				div class: "card is-spaced", ->
 					header class: "card-header", ->
-						h3 class: "card-header-title", @name
+						h3 class: "card-header-title hero is-light", @name
 
 					div class: "card-image", ->
 						if @image
-							figure class: "image is-128x128", style: "overflow:hidden; margin: auto;", ->
+							figure class: "image", style: "overflow:hidden; margin: auto;", ->
 								img
+									style: "max-height: 128px; width: auto; margin: auto;"
 									src: @image
 									alt: @imageText or ("Logo d’" .. @name)
 						else
@@ -90,16 +94,22 @@ List = Class
 						h3 ->
 							a href: @url, @name
 
+							if @domainName
+								span class: "domainName", ->
+									span class: "at", "@"
+									text "#{@domainName}"
+
 				div class: "card-content", ->
 					p ->
 						raw @description or "???"
 
-				footer class: "card-footer", ->
-					a class: "card-footer-item", href: @subscribe, "Inscription"
-					a class: "card-footer-item", href: @archives, "Archives"
+				div class: "card-footer", ->
+					a class: "button is-inverted is-primary", href: @subscribe, "Inscription"
+
+					if @archives
+						a class: "button is-inverted is-primary", href: @archives, "Archives"
 
 Event = do Class
-
 	__init: (arg) =>
 		for k,v in pairs arg
 			@[k] = v
@@ -113,7 +123,7 @@ Event = do Class
 		fromAgendaDuLibre: (tag) ->
 			events = {}
 
-			httpContent = http.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
+			httpContent = https.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
 
 			json = parse_json httpContent
 
@@ -167,7 +177,7 @@ Event = do Class
 									break
 
 							_class = if associationTag
-								"tag is-info"
+								"tag is-primary"
 							else
 								"tag"
 
@@ -178,11 +188,17 @@ Event = do Class
 associations = {
 	with Association
 		name: "Hackstub"
-		description: [[Groupe d'enthousiastes des technologies qui se reconnaissent dans <a href="https://fr.wikipedia.org/wiki/L'%C3%89thique_des_hackers">l’éthique et la culture</a> <a href="https://fr.wikipedia.org/wiki/Hacker_(programmation)">hacker</a>.]]
+		description: "Groupe d'enthousiastes des technologies qui se reconnaissent dans <a href=\"https://fr.wikipedia.org/wiki/L'%C3%89thique_des_hackers\">l’éthique et la culture</a> <a href=\"https://fr.wikipedia.org/wiki/Hacker_(programmation)\">hacker</a>."
 		url: "https://hackstub.netlib.re/landpage/"
 		tag: "hackstub"
 		image: "logo-Hackstub.png"
-		\addLink "https://hackstub.netlib.re/mailman/listinfo/discussions", "Mail"
+		lists: {
+			List
+				name: "discussion"
+				domainName: "hackstub.alsace.netlib.re"
+				description: "Liste de discussion du Hackstub."
+				url: "https://hackstub.netlib.re/mailman/listinfo/discussions"
+		}
 		\addLink "https://github.com/hackstub", "Github"
 
 	Association
@@ -216,7 +232,7 @@ associations = {
 		description: "Association de promotion du Libre et du numérique auprès du plus grand nombre."
 }
 
-listes = {
+lists = {
 	List
 		url: "https://alsace.netlib.re/sympa/info/annonces"
 		archives: "https://alsace.netlib.re/sympa/arc/annonces"
@@ -303,10 +319,19 @@ io.write render_html ->
 
 				section class: "section", id: "contact", ->
 					h1 class: "title", "Contact"
-					h2 class: "subtitle is-4", "… et listes de diffusion"
+					h2 class: "subtitle is-4", "… et listes de discussion"
 
-					raw table.concat [e! for e in *listes]
+					for list in *lists
+						raw list!
+						br!
 
+					div class: "columns is-multiline", ->
+						for association in *associations
+							if association.lists
+								div class: "column", id: "mail-#{association.name}", ->
+									for list in *association.lists
+										raw list!
+									br!
 
 				section class: "section", id: "events", ->
 					h1 class: "title", "Évènements"
