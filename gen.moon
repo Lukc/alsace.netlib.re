@@ -218,13 +218,13 @@ associations = {
 }
 
 listes = {
-    List
-        url: "https://alsace.netlib.re/sympa/info/rmll"
+	List
+		url: "https://alsace.netlib.re/sympa/info/rmll"
 		archives: "https://alsace.netlib.re/sympa/arc/rmll"
 		subscribe: "https://alsace.netlib.re/sympa/subscribe/rmll"
-        name: "RMLL 2018"
-        description: "Liste de l'organisation des RMLL 2018"
-    List
+		name: "RMLL 2018"
+		description: "Liste de l'organisation des RMLL 2018"
+	List
 		url: "https://alsace.netlib.re/sympa/info/discussions"
 		archives: "https://alsace.netlib.re/sympa/arc/discussions"
 		subscribe: "https://alsace.netlib.re/sympa/subscribe/discussions"
