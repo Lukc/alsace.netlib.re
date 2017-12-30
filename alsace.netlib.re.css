@@ -111,3 +111,15 @@ article.media.future a {
 	margin-right: 1ex;
 }
 
+.card-footer h4 {
+	margin: 8px;
+	margin-bottom: 2px;
+}
+
+.domainName {
+	color: #BBB;
+} .at {
+	margin-left: 0.25em;
+	margin-right: 0.25em;
+}
+
