@@ -1,12 +1,13 @@
 #!/usr/bin/env moon
 
 DESCRIPTION_HERO = [[
-	alsace.netlib.re est un réseau d’associations de défense et de promotion
-	du logiciel libre à Strasbourg et en Alsace.
+	alsace.netlib.re est une fédération d’associations de défense et de promotion
+	du logiciel libre et des éthiques hackers à Strasbourg et en Alsace.
 ]]
 
 -- Plus de paragraphes de description ? Ça s’ajoute ici ! o/
 DESCRIPTION = [[
+    Nous organisons l'édition 2018 des Rencontres Mondiales du Logiciel Libre à Strasbourg, du 7 au 12 juillet.
 ]]
 
 local associations, events, lists
@@ -56,7 +57,7 @@ Association = Class
 								img
 									style: "max-height: 128px; width: auto; margin: auto;"
 									src: @image
-									alt: @imageText or ("Logo d’" .. @name)
+									alt: @imageText or ("Logo de " .. @name)
 						else
 							figure!
 
@@ -233,6 +234,18 @@ associations = {
 }
 
 lists = {
+	List
+		url: "https://alsace.netlib.re/sympa/info/rmll"
+		archives: "https://alsace.netlib.re/sympa/arc/rmll"
+		subscribe: "https://alsace.netlib.re/sympa/subscribe/rmll"
+		name: "RMLL 2018"
+		description: "Liste de l'organisation des RMLL 2018"
+	List
+		url: "https://alsace.netlib.re/sympa/info/discussions"
+		archives: "https://alsace.netlib.re/sympa/arc/discussions"
+		subscribe: "https://alsace.netlib.re/sympa/subscribe/discussions"
+		name: "discussions"
+		description: "Liste des discussions internes."
 	List
 		url: "https://alsace.netlib.re/sympa/info/annonces"
 		archives: "https://alsace.netlib.re/sympa/arc/annonces"
