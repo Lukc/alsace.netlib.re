@@ -357,7 +357,7 @@ io.write render_html ->
 
 				section class: "section", id: "events", ->
 					h1 class: "title", "Évènements"
-					h2 class: "subtitle", "… et promotions"
+					h2 class: "subtitle", "… et activités"
 
 					raw table.concat [e! for e in *events]
 
