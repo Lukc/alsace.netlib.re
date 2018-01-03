@@ -293,7 +293,7 @@ while #events > 15
 io.write render_html ->
 	io.write '<?xml version="1.0" encoding="utf-8"?>\n'
 	io.write '<?xml-stylesheet href="alsace.netlib.re.css"?>\n'
-	io.write '<?xml-stylesheet href="bulma.css"?>\n'
+	io.write '<?xml-stylesheet href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"?>\n'
 	io.write '<!DOCTYPE HTML>\n'
 
 	html {
@@ -303,9 +303,6 @@ io.write render_html ->
 	}, ->
 		head ->
 			title "alsace.netlib.re"
-			link
-				rel: "stylesheet"
-				href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 		body ->
 			div class: "container", ->
 				header ->
