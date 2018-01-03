@@ -220,12 +220,14 @@ associations = {
 
 	Association
 		name: "Seeraiwer"
+		tag: "seeraiwer"
 		image: "seeraiwer.png"
 		url: "http://www.seeraiwer.org/"
 		description: "« Brigands des mer »"
 
 	Association
 		name:"Desclicks"
+		tag: "desclicks"
 		image: "desclicks.png"
 		url: "http://desclicks.net/"
 		description: "Association de promotion du Libre et du numérique auprès du plus grand nombre."
