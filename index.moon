@@ -214,26 +214,30 @@ associations = {
 
 	Association
 		name: "LUG"
-		description: "Linux User Group de Strasbourg."
+		description: "Groupe d’utilisateurs de Linux et de logiciels Libres (<cite>Linux User Group</cite>) à Strasbourg."
+		image: "lug.png"
 		url: "https://strasbourg.linuxfr.org"
 
 	Association
 		name: "Seeraiwer"
+		image: "seeraiwer.png"
 		url: "http://www.seeraiwer.org/"
 		description: "« Brigands des mer »"
 
 	Association
+		name:"Desclicks"
+		image: "desclicks.png"
+		url: "http://desclicks.net/"
+		description: "Association de promotion du Libre et du numérique auprès du plus grand nombre."
+
+	Association
 		name: "AIUS"
+		image: "aius.png"
 		description: "Association étudiante."
 
 	Association
 		name: "sxb.so"
-		description: "Des gens qui codent des trucs."
-
-	Association
-		name:"Desclicks"
-		url: "http://desclicks.net/"
-		description: "Association de promotion du Libre et du numérique auprès du plus grand nombre."
+		description: "sxb.so (<cite>Strasbourg Shared Objects</cite>) est un groupe d’entre-aide entre programmeurs."
 }
 
 lists = {
