@@ -199,7 +199,7 @@ associations = {
 		lists: {
 			List
 				name: "discussion"
-				domainName: "hackstub.alsace.netlib.re"
+				domainName: "hackstub.netlib.re"
 				description: "Liste de discussion du Hackstub."
 				url: "https://hackstub.netlib.re/mailman/listinfo/discussions"
 		}
