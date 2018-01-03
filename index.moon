@@ -121,7 +121,7 @@ Event = do Class
 		@tags or= {}
 
 	__class:
-		fromAgendaDuLibre: (tag) ->
+		fromAgendaDuLibre: (tag using nil) ->
 			events = {}
 
 			httpContent = https.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
@@ -265,7 +265,7 @@ events = {
 	Event
 		name: "Rencontres Mondiales du Logiciel Libre"
 		description: "Le plus grand rendez-vous non commercial dans le monde francophone entièrement consacré au logiciel libre et à ses aspects politiques."
-		date: "2018-07-07T09:00:00.000Z"
+		date: date "2018-07-07T09:00:00.000Z"
 		future: true
 }
 
@@ -331,6 +331,11 @@ io.write render_html ->
 
 
 			div class: "container", ->
+				section class: "section", id: "events", ->
+					h1 class: "title", "Évènements"
+
+					raw table.concat [e! for e in *events]
+
 				section class: "section", ->
 					h1 class: "title", id: "membres", "Associations membres"
 
@@ -354,12 +359,6 @@ io.write render_html ->
 									for list in *association.lists
 										raw list!
 									br!
-
-				section class: "section", id: "events", ->
-					h1 class: "title", "Évènements"
-					h2 class: "subtitle", "… et activités"
-
-					raw table.concat [e! for e in *events]
 
 				footer class: "footer has-text-centered", ->
 					p "Écrit avec un 🎔 avec les mains."
