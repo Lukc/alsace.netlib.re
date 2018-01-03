@@ -126,6 +126,9 @@ Event = do Class
 
 			httpContent = https.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
 
+			unless httpContent
+				return nil
+
 			json = parse_json httpContent
 
 			for data in *json
@@ -266,7 +269,8 @@ for association in *associations
 	unless association.tag
 		continue
 
-	for event in *Event.fromAgendaDuLibre association.tag
+	eventsFromAgendaDuLibre = Event.fromAgendaDuLibre association.tag
+	for event in *(eventsFromAgendaDuLibre or {})
 		duplicate = false
 
 		i = 1
@@ -303,7 +307,7 @@ io.write render_html ->
 				rel: "stylesheet"
 				href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 		body ->
-			div id: "container", ->
+			div class: "container", ->
 				header ->
 					nav class: "navbar", ->
 						div class: "navbar-brand", ->
@@ -316,12 +320,16 @@ io.write render_html ->
 								a class: "navbar-item",  href: "#contact",      "Contact"
 								a class: "navbar-item",  href: "#events",       "Évènements"
 
-				section class: "section hero", id: "description", ->
+			section class: "hero is-primary", id: "description", ->
+				div class: "container", ->
 					p class: "hero-body title", DESCRIPTION_HERO
 
-					div class: "section-body", DESCRIPTION
+			section class: "hero is-success is-small", ->
+				div class: "container", ->
+					div class: "hero-body", DESCRIPTION
 
 
+			div class: "container", ->
 				section class: "section", ->
 					h1 class: "title", id: "membres", "Associations membres"
 
