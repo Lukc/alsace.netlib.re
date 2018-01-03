@@ -319,9 +319,9 @@ io.write render_html ->
 						div class: "navbar-menu is-active", ->
 							div class: "navbar-end", ->
 								a class: "navbar-item",  href: "#description",  "Description"
+								a class: "navbar-item",  href: "#events",       "Évènements"
 								a class: "navbar-item",  href: "#membres",      "Membres"
 								a class: "navbar-item",  href: "#contact",      "Contact"
-								a class: "navbar-item",  href: "#events",       "Évènements"
 
 			section class: "hero is-primary", id: "description", ->
 				div class: "container", ->
