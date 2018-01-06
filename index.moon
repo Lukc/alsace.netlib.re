@@ -362,8 +362,13 @@ io.write render_html ->
 										raw list!
 									br!
 
-				footer class: "footer has-text-centered", ->
-					p "Écrit avec un 🎔 avec les mains."
-
-					p "Aussi avec Bulma, Moonscript, et beaucoup d’autres outils."
+			footer class: "footer", ->
+				div class: "container", ->
+					ul ->
+						li ->
+							a href: "", "Mentions légales"
+						li ->
+							a href: "", "Informations techniques"
+						li ->
+							p "Écrit avec amour et pour la gloire du Libre."
 
