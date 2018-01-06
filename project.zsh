@@ -3,14 +3,13 @@ package=alsace.netlib.re
 version="$(git log --format=oneline | wc -l)"
 
 targets=(
-	index.xhtml
-#	legal.xhtml technical.xhtml
+	index.xhtml legal.xhtml technical.xhtml
 	$package.css
 )
 
 type[index.xhtml]=moon-xhtml
-#type[legal.xhtml]=moon-xhtml
-#type[technical.xhtml]=moon-xhtml
+type[legal.xhtml]=moon-xhtml
+type[technical.xhtml]=moon-xhtml
 type[$package.css]=sass
 
 for image in *.png; do
@@ -60,7 +59,7 @@ function asset.clean {
 # XHTML (from Moonscript)
 
 function moon-xhtml.build {
-	write -n "${target}:"
+	write -n "${target}: template.moon class.moon"
 
 	if [[ -e "${target%.xhtml}.moon" ]]; then
 		write -n " ${target%.xhtml}.moon"

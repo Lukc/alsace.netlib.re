@@ -1,5 +1,5 @@
 PACKAGE = 'alsace.netlib.re'
-VERSION = '35'
+VERSION = '36'
 
 PREFIX := /usr/local
 BINDIR := $(PREFIX)/bin
@@ -18,10 +18,10 @@ LDFLAGS :=
 
 Q := @
 
-all: index.xhtml alsace.netlib.re.css aius.png desclicks.png logo-ARN.png logo-Hackstub.png lug.png seeraiwer.png
+all: index.xhtml legal.xhtml technical.xhtml alsace.netlib.re.css aius.png desclicks.png logo-ARN.png logo-Hackstub.png lug.png seeraiwer.png
 	@:
 
-index.xhtml: index.moon
+index.xhtml: template.moon class.moon index.moon
 	@echo '[01;33m  MOON >  [01;37mindex.xhtml[00m'
 	$(Q)moon index.moon > index.xhtml
 
@@ -38,6 +38,42 @@ index.xhtml.clean:
 index.xhtml.uninstall:
 	@echo '[01;37m  RM >    [01;37m$(PUBDIR)/index.xhtml[00m'
 	$(Q)rm -f '$(DESTDIR)$(PUBDIR)/index.xhtml'
+
+legal.xhtml: template.moon class.moon legal.moon
+	@echo '[01;33m  MOON >  [01;37mlegal.xhtml[00m'
+	$(Q)moon legal.moon > legal.xhtml
+
+
+legal.xhtml.install: legal.xhtml
+	@echo '[01;31m  IN >    [01;37m$(PUBDIR)/legal.xhtml[00m'
+	$(Q)mkdir -p '$(DESTDIR)$(PUBDIR)'
+	$(Q)install -m0755 legal.xhtml $(DESTDIR)$(PUBDIR)/legal.xhtml
+
+legal.xhtml.clean:
+	@echo '[01;37m  RM >    [01;37mlegal.xhtml[00m'
+	$(Q)rm -f legal.xhtml
+
+legal.xhtml.uninstall:
+	@echo '[01;37m  RM >    [01;37m$(PUBDIR)/legal.xhtml[00m'
+	$(Q)rm -f '$(DESTDIR)$(PUBDIR)/legal.xhtml'
+
+technical.xhtml: template.moon class.moon technical.moon
+	@echo '[01;33m  MOON >  [01;37mtechnical.xhtml[00m'
+	$(Q)moon technical.moon > technical.xhtml
+
+
+technical.xhtml.install: technical.xhtml
+	@echo '[01;31m  IN >    [01;37m$(PUBDIR)/technical.xhtml[00m'
+	$(Q)mkdir -p '$(DESTDIR)$(PUBDIR)'
+	$(Q)install -m0755 technical.xhtml $(DESTDIR)$(PUBDIR)/technical.xhtml
+
+technical.xhtml.clean:
+	@echo '[01;37m  RM >    [01;37mtechnical.xhtml[00m'
+	$(Q)rm -f technical.xhtml
+
+technical.xhtml.uninstall:
+	@echo '[01;37m  RM >    [01;37m$(PUBDIR)/technical.xhtml[00m'
+	$(Q)rm -f '$(DESTDIR)$(PUBDIR)/technical.xhtml'
 
 alsace.netlib.re.css: alsace.netlib.re.sass
 	@echo '[01;34m  SASSC > [01;37malsace.netlib.re.css[00m'
@@ -151,12 +187,12 @@ $(DESTDIR)$(INCLUDEDIR):
 $(DESTDIR)$(MANDIR):
 	@echo '[01;35m  DIR >   [01;37m$(MANDIR)[00m'
 	$(Q)mkdir -p $(DESTDIR)$(MANDIR)
-install: subdirs.install index.xhtml.install alsace.netlib.re.css.install aius.png.install desclicks.png.install logo-ARN.png.install logo-Hackstub.png.install lug.png.install seeraiwer.png.install
+install: subdirs.install index.xhtml.install legal.xhtml.install technical.xhtml.install alsace.netlib.re.css.install aius.png.install desclicks.png.install logo-ARN.png.install logo-Hackstub.png.install lug.png.install seeraiwer.png.install
 	@:
 
 subdirs.install:
 
-uninstall: subdirs.uninstall index.xhtml.uninstall alsace.netlib.re.css.uninstall aius.png.uninstall desclicks.png.uninstall logo-ARN.png.uninstall logo-Hackstub.png.uninstall lug.png.uninstall seeraiwer.png.uninstall
+uninstall: subdirs.uninstall index.xhtml.uninstall legal.xhtml.uninstall technical.xhtml.uninstall alsace.netlib.re.css.uninstall aius.png.uninstall desclicks.png.uninstall logo-ARN.png.uninstall logo-Hackstub.png.uninstall lug.png.uninstall seeraiwer.png.uninstall
 	@:
 
 subdirs.uninstall:
@@ -166,7 +202,7 @@ test: all subdirs subdirs.test
 
 subdirs.test:
 
-clean: index.xhtml.clean alsace.netlib.re.css.clean aius.png.clean desclicks.png.clean logo-ARN.png.clean logo-Hackstub.png.clean lug.png.clean seeraiwer.png.clean
+clean: index.xhtml.clean legal.xhtml.clean technical.xhtml.clean alsace.netlib.re.css.clean aius.png.clean desclicks.png.clean logo-ARN.png.clean logo-Hackstub.png.clean lug.png.clean seeraiwer.png.clean
 
 distclean: clean
 
@@ -196,7 +232,7 @@ $(PACKAGE)-$(VERSION).tar.bz2: distdir
 
 
 help:
-	@echo '[01;37m :: alsace.netlib.re-35[00m'
+	@echo '[01;37m :: alsace.netlib.re-36[00m'
 	@echo ''
 	@echo '[01;37mGeneric targets:[00m'
 	@echo '[00m    - [01;32mhelp          [37m Prints this help message.[00m'
@@ -222,6 +258,8 @@ help:
 	@echo ''
 	@echo '[01;37mProject targets: [00m'
 	@echo '    - [01;33mindex.xhtml   [37m moon-xhtml[00m'
+	@echo '    - [01;33mlegal.xhtml   [37m moon-xhtml[00m'
+	@echo '    - [01;33mtechnical.xhtml[37m moon-xhtml[00m'
 	@echo '    - [01;33malsace.netlib.re.css[37m sass[00m'
 	@echo '    - [01;33maius.png      [37m asset[00m'
 	@echo '    - [01;33mdesclicks.png [37m asset[00m'

@@ -1,5 +1,7 @@
 #!/usr/bin/env moon
 
+template = require "template"
+
 DESCRIPTION_HERO = [[
 	alsace.netlib.re est une fédération d’associations de défense et de promotion
 	du logiciel libre et du numérique éthique, à Strasbourg et en Alsace.
@@ -296,79 +298,43 @@ table.sort events, (a, b) -> a.date < b.date
 while #events > 15
 	table.remove events
 
-io.write render_html ->
-	io.write '<?xml version="1.0" encoding="utf-8"?>\n'
-	io.write '<?xml-stylesheet href="alsace.netlib.re.css"?>\n'
-	io.write '<?xml-stylesheet href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"?>\n'
-	io.write '<!DOCTYPE HTML>\n'
+template render_html ->
+	section class: "hero is-primary", id: "description", ->
+		div class: "container", ->
+			p class: "hero-body title", DESCRIPTION_HERO
 
-	html {
-		lang: "fr"
-		"xml:lang": "fr"
-		xmlns: "http://www.w3.org/1999/xhtml"
-	}, ->
-		head ->
-			title "alsace.netlib.re"
-		body ->
-			div class: "container", ->
-				header ->
-					nav class: "navbar", ->
-						div class: "navbar-brand", ->
-							h1 "alsace.netlib.re"
-
-						div class: "navbar-menu is-active", ->
-							div class: "navbar-end", ->
-								a class: "navbar-item",  href: "#description",  "Description"
-								a class: "navbar-item",  href: "#events",       "Évènements"
-								a class: "navbar-item",  href: "#membres",      "Membres"
-								a class: "navbar-item",  href: "#contact",      "Contact"
-
-			section class: "hero is-primary", id: "description", ->
-				div class: "container", ->
-					p class: "hero-body title", DESCRIPTION_HERO
-
-			section class: "hero is-success is-small", ->
-				div class: "container", ->
-					div class: "hero-body", DESCRIPTION
+	section class: "hero is-success is-small", ->
+		div class: "container", ->
+			div class: "hero-body", DESCRIPTION
 
 
-			div class: "container", ->
-				section class: "section", id: "events", ->
-					h1 class: "title", "Évènements"
+	div class: "container", ->
+		section class: "section", id: "events", ->
+			h1 class: "title", "Évènements"
 
-					raw table.concat [e! for e in *events]
+			raw table.concat [e! for e in *events]
 
-				section class: "section", ->
-					h1 class: "title", id: "membres", "Associations membres"
+		section class: "section", ->
+			h1 class: "title", id: "membres", "Associations membres"
 
-					div class: "columns is-multiline is-flex-touch", ->
-						for i in *{1, 2, 0}
-							div class: "column is-one-third", ->
-								raw table.concat [associations[j]! for j = 1, #associations when j % 3 == i]
+			div class: "columns is-multiline is-flex-touch", ->
+				for i in *{1, 2, 0}
+					div class: "column is-one-third", ->
+						raw table.concat [associations[j]! for j = 1, #associations when j % 3 == i]
 
-				section class: "section", id: "contact", ->
-					h1 class: "title", "Contact"
-					h2 class: "subtitle is-4", "… et listes de discussion"
+		section class: "section", id: "contact", ->
+			h1 class: "title", "Contact"
+			h2 class: "subtitle is-4", "… et listes de discussion"
 
-					for list in *lists
-						raw list!
-						br!
+			for list in *lists
+				raw list!
+				br!
 
-					div class: "columns is-multiline", ->
-						for association in *associations
-							if association.lists
-								div class: "column", id: "mail-#{association.name}", ->
-									for list in *association.lists
-										raw list!
-									br!
-
-			footer class: "footer", ->
-				div class: "container", ->
-					ul ->
-						li ->
-							a href: "", "Mentions légales"
-						li ->
-							a href: "", "Informations techniques"
-						li ->
-							p "Écrit avec amour et pour la gloire du Libre."
+			div class: "columns is-multiline", ->
+				for association in *associations
+					if association.lists
+						div class: "column", id: "mail-#{association.name}", ->
+							for list in *association.lists
+								raw list!
+							br!
 
