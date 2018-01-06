@@ -6,7 +6,9 @@ env:
     # As long as we’re using the DSL from Lapis, we’re stuck with Lua 5.1.
     - LUA="lua=5.1"
     - LUA="luajit=2.0"
-    - LUA="luajit=2.1"
+
+# Dépendance cassée lors de sa compilation sur les VM de Travis. =|
+#    - LUA="luajit=2.1"
 
 install:
     - luarocks install luasec
