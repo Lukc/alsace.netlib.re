@@ -2,7 +2,7 @@
 
 DESCRIPTION_HERO = [[
 	alsace.netlib.re est une fédération d’associations de défense et de promotion
-	du logiciel libre et des éthiques hackers à Strasbourg et en Alsace.
+	du logiciel libre et du numérique éthique, à Strasbourg et en Alsace.
 ]]
 
 -- Plus de paragraphes de description ? Ça s’ajoute ici ! o/
