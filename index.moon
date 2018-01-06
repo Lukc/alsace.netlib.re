@@ -291,7 +291,7 @@ for association in *associations
 		unless duplicate
 			table.insert events, event
 
-table.sort events, (a, b) -> a.date > b.date
+table.sort events, (a, b) -> a.date < b.date
 
 while #events > 15
 	table.remove events
