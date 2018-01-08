@@ -236,6 +236,9 @@ listes = {
 		subscribe: "https://alsace.netlib.re/sympa/subscribe/annonces"
 		name: "annonces"
 		description: "Liste d’annonces de choses."
+    List
+        name: IRC
+        description: "#RMLL_2018 @ irc.freenode.net"
 }
 
 events = {
