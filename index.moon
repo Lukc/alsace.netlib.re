@@ -1,8 +1,9 @@
 #!/usr/bin/env moon
 
+template = require "template"
+
 DESCRIPTION_HERO = [[
-	alsace.netlib.re est une fédération d’associations de défense et de promotion
-	du logiciel libre et des éthiques hackers à Strasbourg et en Alsace.
+	alsace.netlib.re est une fédération d’associations de défense et de promotion du logiciel libre et des éthiques hackers à Strasbourg et en Alsace.
 ]]
 
 -- Plus de paragraphes de description ? Ça s’ajoute ici ! o/
@@ -14,7 +15,7 @@ local associations, events, lists
 
 {:render_html} = require "lapis.html"
 
-http = require "socket.http"
+https = require "ssl.https"
 date = require "date"
 
 {decode: parse_json} = require "json"
@@ -28,6 +29,9 @@ Association = Class
 			@[k] = v
 
 		@otherLinks or= {}
+
+		if @lists
+			@\addLink "#mail-#{@name}", "Listes de discussion", "envelope-o"
 
 	addLink: (url, text, icon) =>
 		table.insert @otherLinks,
@@ -46,12 +50,13 @@ Association = Class
 			div class: "is-one-third", ->
 				div class: "card is-spaced", ->
 					header class: "card-header", ->
-						h3 class: "card-header-title", @name
+						h3 class: "card-header-title hero is-light", @name
 
 					div class: "card-image", ->
 						if @image
-							figure class: "image is-128x128", style: "overflow:hidden; margin: auto;", ->
+							figure class: "image", style: "overflow:hidden; margin: auto;", ->
 								img
+									style: "max-height: 128px; width: auto; margin: auto;"
 									src: @image
 									alt: @imageText or ("Logo de " .. @name)
 						else
@@ -91,16 +96,22 @@ List = Class
 						h3 ->
 							a href: @url, @name
 
+							if @domainName
+								span class: "domainName", ->
+									span class: "at", "@"
+									text "#{@domainName}"
+
 				div class: "card-content", ->
 					p ->
 						raw @description or "???"
 
-				footer class: "card-footer", ->
-					a class: "card-footer-item", href: @subscribe, "Inscription"
-					a class: "card-footer-item", href: @archives, "Archives"
+				div class: "card-footer", ->
+					a class: "button is-inverted is-primary", href: @subscribe, "Inscription"
+
+					if @archives
+						a class: "button is-inverted is-primary", href: @archives, "Archives"
 
 Event = do Class
-
 	__init: (arg) =>
 		for k,v in pairs arg
 			@[k] = v
@@ -111,10 +122,13 @@ Event = do Class
 		@tags or= {}
 
 	__class:
-		fromAgendaDuLibre: (tag) ->
+		fromAgendaDuLibre: (tag using nil) ->
 			events = {}
 
-			httpContent = http.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
+			httpContent = https.request "https://www.agendadulibre.org/maps.json?tag=#{tag}"
+
+			unless httpContent
+				return nil
 
 			json = parse_json httpContent
 
@@ -168,7 +182,7 @@ Event = do Class
 									break
 
 							_class = if associationTag
-								"tag is-info"
+								"tag is-primary"
 							else
 								"tag"
 
@@ -179,11 +193,17 @@ Event = do Class
 associations = {
 	with Association
 		name: "Hackstub"
-		description: [[Groupe d'enthousiastes des technologies qui se reconnaissent dans <a href="https://fr.wikipedia.org/wiki/L'%C3%89thique_des_hackers">l’éthique et la culture</a> <a href="https://fr.wikipedia.org/wiki/Hacker_(programmation)">hacker</a>.]]
+		description: "Groupe d'enthousiastes des technologies qui se reconnaissent dans <a href=\"https://fr.wikipedia.org/wiki/L'%C3%89thique_des_hackers\">l’éthique et la culture</a> <a href=\"https://fr.wikipedia.org/wiki/Hacker_(programmation)\">hacker</a>."
 		url: "https://hackstub.netlib.re/landpage/"
 		tag: "hackstub"
 		image: "logo-Hackstub.png"
-		\addLink "https://hackstub.netlib.re/mailman/listinfo/discussions", "Mail"
+		lists: {
+			List
+				name: "discussion"
+				domainName: "hackstub.netlib.re"
+				description: "Liste de discussion du Hackstub."
+				url: "https://hackstub.netlib.re/mailman/listinfo/discussions"
+		}
 		\addLink "https://github.com/hackstub", "Github"
 
 	Association
@@ -195,36 +215,42 @@ associations = {
 
 	Association
 		name: "LUG"
-		description: "Linux User Group de Strasbourg."
+		description: "Groupe d’utilisateurs de Linux et de logiciels Libres (<cite>Linux User Group</cite>) à Strasbourg."
+		image: "lug.png"
 		url: "https://strasbourg.linuxfr.org"
 
 	Association
 		name: "Seeraiwer"
+		tag: "seeraiwer"
+		image: "seeraiwer.png"
 		url: "http://www.seeraiwer.org/"
 		description: "« Brigands des mer »"
 
 	Association
+		name:"Desclicks"
+		tag: "desclicks"
+		image: "desclicks.png"
+		url: "http://desclicks.net/"
+		description: "Association de promotion du Libre et du numérique auprès du plus grand nombre."
+
+	Association
 		name: "AIUS"
+		image: "aius.png"
 		description: "Association étudiante."
 
 	Association
 		name: "sxb.so"
-		description: "Des gens qui codent des trucs."
-
-	Association
-		name:"Desclicks"
-		url: "http://desclicks.net/"
-		description: "Association de promotion du Libre et du numérique auprès du plus grand nombre."
+		description: "sxb.so (<cite>Strasbourg Shared Objects</cite>) est un groupe d’entre-aide entre programmeurs."
 }
 
-listes = {
-    List
-        url: "https://alsace.netlib.re/sympa/info/rmll"
+lists = {
+	List
+		url: "https://alsace.netlib.re/sympa/info/rmll"
 		archives: "https://alsace.netlib.re/sympa/arc/rmll"
 		subscribe: "https://alsace.netlib.re/sympa/subscribe/rmll"
-        name: "RMLL 2018"
-        description: "Liste de l'organisation des RMLL 2018"
-    List
+		name: "RMLL 2018"
+		description: "Liste de l'organisation des RMLL 2018"
+	List
 		url: "https://alsace.netlib.re/sympa/info/discussions"
 		archives: "https://alsace.netlib.re/sympa/arc/discussions"
 		subscribe: "https://alsace.netlib.re/sympa/subscribe/discussions"
@@ -245,7 +271,7 @@ events = {
 	Event
 		name: "Rencontres Mondiales du Logiciel Libre"
 		description: "Le plus grand rendez-vous non commercial dans le monde francophone entièrement consacré au logiciel libre et à ses aspects politiques."
-		date: "2018-07-07T09:00:00.000Z"
+		date: date "2018-07-07T09:00:00.000Z"
 		future: true
 }
 
@@ -253,7 +279,8 @@ for association in *associations
 	unless association.tag
 		continue
 
-	for event in *Event.fromAgendaDuLibre association.tag
+	eventsFromAgendaDuLibre = Event.fromAgendaDuLibre association.tag
+	for event in *(eventsFromAgendaDuLibre or {})
 		duplicate = false
 
 		i = 1
@@ -268,70 +295,48 @@ for association in *associations
 		unless duplicate
 			table.insert events, event
 
-table.sort events, (a, b) -> a.date > b.date
+table.sort events, (a, b) -> a.date < b.date
 
 while #events > 15
 	table.remove events
 
-io.write render_html ->
-	io.write '<?xml version="1.0" encoding="utf-8"?>\n'
-	io.write '<?xml-stylesheet href="alsace.netlib.re.css"?>\n'
-	io.write '<?xml-stylesheet href="bulma.css"?>\n'
-	io.write '<!DOCTYPE HTML>\n'
+template render_html ->
+	section class: "hero is-primary", id: "description", ->
+		div class: "container", ->
+			p class: "hero-body title", DESCRIPTION_HERO
 
-	html {
-		lang: "fr"
-		"xml:lang": "fr"
-		xmlns: "http://www.w3.org/1999/xhtml"
-	}, ->
-		head ->
-			title "alsace.netlib.re"
-			link
-				rel: "stylesheet"
-				href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-		body ->
-			div id: "container", ->
-				header ->
-					nav class: "navbar", ->
-						div class: "navbar-brand", ->
-							h1 "alsace.netlib.re"
-
-						div class: "navbar-menu is-active", ->
-							div class: "navbar-end", ->
-								a class: "navbar-item",  href: "#description",  "Description"
-								a class: "navbar-item",  href: "#membres",      "Membres"
-								a class: "navbar-item",  href: "#contact",      "Contact"
-								a class: "navbar-item",  href: "#events",       "Évènements"
-
-				section class: "section hero", id: "description", ->
-					p class: "hero-body title", DESCRIPTION_HERO
-
-					raw DESCRIPTION
+	section class: "hero is-success is-small", ->
+		div class: "container", ->
+			div class: "hero-body", DESCRIPTION
 
 
-				section class: "section", ->
-					h1 class: "title", id: "membres", "Associations membres"
+	div class: "container", ->
+		section class: "section", id: "events", ->
+			h1 class: "title", "Évènements"
 
-					div class: "columns is-multiline is-flex-touch", ->
-						for i in *{1, 2, 0}
-							div class: "column is-one-third", ->
-								raw table.concat [associations[j]! for j = 1, #associations when j % 3 == i]
+			raw table.concat [e! for e in *events]
 
-				section class: "section", id: "contact", ->
-					h1 class: "title", "Contact"
-					h2 class: "subtitle is-4", "… et listes de diffusion"
+		section class: "section", ->
+			h1 class: "title", id: "membres", "Associations membres"
 
-					raw table.concat [e! for e in *listes]
+			div class: "columns is-multiline is-flex-touch", ->
+				for i in *{1, 2, 0}
+					div class: "column is-one-third", ->
+						raw table.concat [associations[j]! for j = 1, #associations when j % 3 == i]
 
+		section class: "section", id: "contact", ->
+			h1 class: "title", "Contact"
+			h2 class: "subtitle is-4", "… et listes de discussion"
 
-				section class: "section", id: "events", ->
-					h1 class: "title", "Évènements"
-					h2 class: "subtitle", "… et promotions"
+			for list in *lists
+				raw list!
+				br!
 
-					raw table.concat [e! for e in *events]
-
-				footer class: "footer has-text-centered", ->
-					p "Écrit avec un 🎔 avec les mains."
-
-					p "Aussi avec Bulma, Moonscript, et beaucoup d’autres outils."
+			div class: "columns is-multiline", ->
+				for association in *associations
+					if association.lists
+						div class: "column", id: "mail-#{association.name}", ->
+							for list in *association.lists
+								raw list!
+							br!
 

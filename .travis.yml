@@ -1,0 +1,37 @@
+
+language: c
+sudo: required
+
+env:
+    # As long as we’re using the DSL from Lapis, we’re stuck with Lua 5.1.
+    - LUA="lua=5.1"
+    - LUA="luajit=2.0"
+
+# Dépendance cassée lors de sa compilation sur les VM de Travis. =|
+#    - LUA="luajit=2.1"
+
+install:
+    - luarocks install luasec
+    - luarocks install luasocket
+    - luarocks install luajson
+    - luarocks install date
+    - luarocks install moonscript
+    - luarocks install lapis
+
+before_install:
+    - sudo pip3 install hererocks
+    - hererocks lua_install -r^ --$LUA
+    - export PATH=$PATH:$PWD/lua_install/bin
+
+script:
+    - make DESTDIR="$(pwd)/pkg" SHAREDIR=/srv/http/ install
+
+cache:
+    directories:
+        - lua_install
+
+addons:
+    apt:
+        packages:
+            - python3-pip
+
