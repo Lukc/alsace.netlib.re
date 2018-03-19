@@ -9,7 +9,7 @@ DESCRIPTION_HERO = [[
 
 -- Plus de paragraphes de description ? Ça s’ajoute ici ! o/
 DESCRIPTION = [[
-    Nous organisons l'édition 2018 des Rencontres Mondiales du Logiciel Libre à Strasbourg, du 7 au 12 juillet.
+--    Nous organisons l'édition 2018 des Rencontres Mondiales du Logiciel Libre à Strasbourg, du 7 au 12 juillet.
 ]]
 
 local associations, events, lists
@@ -134,13 +134,17 @@ Event = do Class
 			json = parse_json httpContent
 
 			for data in *json
-				table.insert events, Event
+				table.insert events, with Event
 					name: data.properties.name
 					date: date(data.properties.start_time)
 					url: "https://www.agendadulibre.org/events/" .. tostring(data.properties.id)
-					description: data.properties.place_name .. ", " .. data.properties.address
 					id: data.properties.id
 					tags: data.properties.tags
+
+					if type(data.properties.place_name) == "string"
+						.description = data.properties.place_name .. ", " .. data.properties.address
+					else
+						.description = data.properties.address
 
 			events
 
