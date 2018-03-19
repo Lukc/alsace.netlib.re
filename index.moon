@@ -9,7 +9,7 @@ DESCRIPTION_HERO = [[
 
 -- Plus de paragraphes de description ? Ça s’ajoute ici ! o/
 DESCRIPTION = [[
---    Nous organisons l'édition 2018 des Rencontres Mondiales du Logiciel Libre à Strasbourg, du 7 au 12 juillet.
+	Nous organisons l’édition 2018 des Rencontres Mondiales du Logiciel Libre à Strasbourg, du 7 au 12 juillet.
 ]]
 
 local associations, events, lists
