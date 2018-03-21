@@ -47,5 +47,7 @@
 							li ->
 								a href: "technical.xhtml", "Informations techniques"
 							li ->
+								a href: "https://github.com/Lukc/alsace.netlib.re", "Code Source"
+							li ->
 								p "Écrit avec amour et pour la gloire du Libre."
 
