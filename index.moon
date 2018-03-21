@@ -7,11 +7,6 @@ DESCRIPTION_HERO = [[
 	du logiciel libre et du numérique éthique, à Strasbourg et en Alsace.
 ]]
 
--- Plus de paragraphes de description ? Ça s’ajoute ici ! o/
-DESCRIPTION = [[
-	Nous organisons l’édition 2018 des Rencontres Mondiales du Logiciel Libre à Strasbourg, du 7 au 12 juillet.
-]]
-
 local associations, events, lists
 
 {:render_html} = require "lapis.html"
@@ -309,7 +304,10 @@ template render_html ->
 
 	section class: "hero is-success is-small", ->
 		div class: "container", ->
-			div class: "hero-body", DESCRIPTION
+			a href: "https://2018.rmll.info", ->
+				div class: "hero-body", [[
+					Nous organisons l’édition 2018 des Rencontres Mondiales du Logiciel Libre à Strasbourg, du 7 au 12 juillet.
+				]]
 
 
 	div class: "container", ->
