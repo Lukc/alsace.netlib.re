@@ -3,8 +3,7 @@
 template = require "template"
 
 DESCRIPTION_HERO = [[
-	alsace.netlib.re est une fédération d’associations de défense et de promotion
-	du logiciel libre et du numérique éthique, à Strasbourg et en Alsace.
+	alsace.netlib.re est une fédération d’associations de défense et de promotion du logiciel libre et des éthiques hackers à Strasbourg et en Alsace.
 ]]
 
 local associations, events, lists
@@ -262,6 +261,9 @@ lists = {
 		subscribe: "https://alsace.netlib.re/sympa/subscribe/annonces"
 		name: "annonces"
 		description: "Liste d’annonces de choses."
+    List
+        name: IRC
+        description: "#RMLL_2018 @ irc.freenode.net"
 }
 
 events = {
