@@ -302,14 +302,6 @@ template render_html ->
 		div class: "container", ->
 			p class: "hero-body title", DESCRIPTION_HERO
 
-	section class: "hero is-success is-small", ->
-		div class: "container", ->
-			a href: "https://2018.rmll.info", ->
-				div class: "hero-body", [[
-					Nous organisons l’édition 2018 des Rencontres Mondiales du Logiciel Libre à Strasbourg, du 7 au 12 juillet.
-				]]
-
-
 	div class: "container", ->
 		section class: "section", id: "events", ->
 			h1 class: "title", "Évènements"
