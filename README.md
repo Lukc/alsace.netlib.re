@@ -13,6 +13,7 @@ Voilà les instructions pour installer les dépendances sur Arch :
 	luarocks-5.1 install luasocket
 	luarocks-5.1 install luajson
 	luarocks-5.1 install date
+  luarocks-5.1 install moonscript
 
 # Construction
 
